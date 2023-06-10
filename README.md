@@ -53,6 +53,7 @@ you can download ESCI data from here: [ESCI](https://github.com/amazon-science/e
 #### Process Code 
 (1) Collect pretraining code data.
 The pretraining data for the code is sourced from the downloaded CodeSearchNet, which consists of six programming languages. The collection of pretraining data is based on the data statistics provided by [CodeT5]{https://arxiv.org/abs/2109.00859} and [CodeRetriever]{https://arxiv.org/abs/2201.10866}. For the five programming languages other than Python, the `train` from CodeSearchNet will be merged to create the pretraining data `${PRETRAIN_RAW_PATH}/${pretrain_raw_data}`. However, for Python, both the `train` and `test` from CodeSearchNet will be merged as the pretraining data. When selecting a checkpoint for pretraining, the `valid` from CodeSearchNet will be used as the `dev` for all programming languages. 
+
 (2) Process pretraining code data.
 To process the raw code pretraining data and make it suitable for pretraining inputs `<query, positive, label>`.
 Enter the folder `shell` and run the shell script:

@@ -53,7 +53,7 @@ you can download ESCI data from here: [ESCI](https://github.com/amazon-science/e
 
 (1) Collect pretraining code data.
 
-The pretraining data for the code is sourced from the downloaded CodeSearchNet, which consists of six programming languages. The collection of pretraining data is based on the data statistics provided by [CodeT5]{https://arxiv.org/abs/2109.00859} and [CodeRetriever]{https://arxiv.org/abs/2201.10866}. For the five programming languages other than Python, the `train` from CodeSearchNet will be merged to create the pretraining data `${PRETRAIN_RAW_PATH}/${pretrain_raw_data}`. However, for Python, both the `train` and `test` from CodeSearchNet will be merged as the pretraining data. When selecting a checkpoint for pretraining, the `valid` from CodeSearchNet will be used as the `dev` for all programming languages. 
+The pretraining data for the code is sourced from the downloaded CodeSearchNet, which consists of six programming languages. The collection of pretraining data is based on the data statistics provided by [CodeT5](https://arxiv.org/abs/2109.00859) and [CodeRetriever](https://arxiv.org/abs/2201.10866). For the five programming languages other than Python, the `train` from CodeSearchNet will be merged to create the pretraining data `${PRETRAIN_RAW_PATH}/${pretrain_raw_data}`. However, for Python, both the `train` and `test` from CodeSearchNet will be merged as the pretraining data. When selecting a checkpoint for pretraining, the `valid` from CodeSearchNet will be used as the `dev` for all programming languages. 
 
 (2) Process pretraining code data.
 
@@ -86,8 +86,21 @@ bash process-pretrain-product.sh
 (3) Process finetuning produc data.
 
 For the product search task, we use ESCI (small) data for finetuning. you can process the raw training file which includes  `shopping_queries_dataset_examples.parquet` and `shopping_queries_dataset_products.parquet` into input path `${FINETUNE_PATH}/${finetune_data}` for fintuning and eval path `${FINETUNE_PATH}/${finetune_eval_data}` for selecting finetuning checkpoint.
-
-
 ```
 bash process-finetune-product.sh
+```
+
+## Pretraining
+#### Pretraing for code search
+
+To continue pretraining CodeT5 for different programming languages, utilize the corresponding processed code pretraining data. For instance, if you want to train a Python code retrieval model, only use Python pretraining data for training.
+```
+bash pretrain-code.sh
+```
+
+#### Pretraing for code search
+
+Continuing pretraining T5 using the processed product pretraining data to get a product retrieval model.
+```
+bash pretrain-product.sh
 ```

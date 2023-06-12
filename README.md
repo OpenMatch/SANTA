@@ -15,7 +15,6 @@ scikit-learn>=1.1.2
 pandas==1.5.0
 pytrec-eval==0.5
 tensorboard
-
 ```
 (2) install openmatch. To download OpenMatch as a library and obtain openmatch-thunlp-0.0.1.
 ```
@@ -51,14 +50,44 @@ you can download ESCI data from here: [ESCI](https://github.com/amazon-science/e
 
 ## Process Data
 #### Process Code 
+
 (1) Collect pretraining code data.
-The pretraining data for the code is sourced from the downloaded CodeSearchNet, which consists of six programming languages. The collection of pretraining data is based on the data statistics provided by [CodeT5](https://arxiv.org/abs/2109.00859) and [CodeRetriever](https://arxiv.org/abs/2201.10866). For the five programming languages other than Python, the `train` from CodeSearchNet will be merged to create the pretraining data `${PRETRAIN_RAW_PATH}/${pretrain_raw_data}`. However, for Python, both the `train` and `test` from CodeSearchNet will be merged as the pretraining data. When selecting a checkpoint for pretraining, the `valid` from CodeSearchNet will be used as the `dev` for all programming languages. 
+
+The pretraining data for the code is sourced from the downloaded CodeSearchNet, which consists of six programming languages. The collection of pretraining data is based on the data statistics provided by [CodeT5]{https://arxiv.org/abs/2109.00859} and [CodeRetriever]{https://arxiv.org/abs/2201.10866}. For the five programming languages other than Python, the `train` from CodeSearchNet will be merged to create the pretraining data `${PRETRAIN_RAW_PATH}/${pretrain_raw_data}`. However, for Python, both the `train` and `test` from CodeSearchNet will be merged as the pretraining data. When selecting a checkpoint for pretraining, the `valid` from CodeSearchNet will be used as the `dev` for all programming languages. 
 
 (2) Process pretraining code data.
-To process the raw code pretraining data and make it suitable for pretraining inputs `<query, positive, label>`.
+
+process the raw code pretraining data and make it suitable for pretraining inputs `<query, positive, label>`.
 Enter the folder `shell` and run the shell script:
 ```
 bash process-pretrain-code.sh
 ```
+
 (3) Process finetuning code data.
-For the Adv and CodeSearch tasks, you can process the raw training data  `train ` into input data.
+
+For the `Adv` and `CodeSearch` two code retriever tasks, you can process the raw training file `train ` into input path `${FINETUNE_RAW_PATH}/${finetune_raw_data}`.
+```
+bash process-finetune-code.sh
+```
+
+#### Process Product
+
+(1) Collect pretraining product data.
+
+To use the ESCI (large) data for pretraining, please ensure that the following two files, `shopping_queries_dataset_examples.parquet` and `shopping_queries_dataset_products.parquet`, are downloaded and available in the pretraining path `${PRETRAIN_RAW_PATH}`.
+
+(2) Process pretraining produc data.
+
+processing the raw product pretraining data makes it suitable for pretraining inputs `<query, positive, label>` and save dev set into `${PRETRAIN_PATH}/${pretrain_eval_data}` for selecting pretraining checkpoint.
+```
+bash process-pretrain-product.sh
+```
+
+(3) Process finetuning produc data.
+
+For the product search task, we use ESCI (small) data for finetuning. you can process the raw training file which includes  `shopping_queries_dataset_examples.parquet` and `shopping_queries_dataset_products.parquet` into input path `${FINETUNE_PATH}/${finetune_data}` for fintuning and eval path `${FINETUNE_PATH}/${finetune_eval_data}` for selecting finetuning checkpoint.
+
+
+```
+bash process-finetune-product.sh
+```

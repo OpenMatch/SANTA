@@ -86,6 +86,7 @@ bash process-pretrain-product.sh
 (3) Process finetuning produc data.
 
 For the product search task, we use ESCI (small) data for finetuning. you can process the raw training file which includes  `shopping_queries_dataset_examples.parquet` and `shopping_queries_dataset_products.parquet` into input path `${FINETUNE_PATH}/${finetune_data}` for fintuning and eval path `${FINETUNE_PATH}/${finetune_eval_data}` for selecting finetuning checkpoint.
+
 ```
 bash process-finetune-product.sh
 ```
@@ -98,9 +99,50 @@ To continue pretraining CodeT5 for different programming languages, utilize the 
 bash pretrain-code.sh
 ```
 
-#### Pretraing for code search
+#### Pretraing for product search
 
 Continuing pretraining T5 using the processed product pretraining data to get a product retrieval model.
 ```
 bash pretrain-product.sh
+```
+
+## Finetuning
+#### Finetuning for code search
+
+For the pretrained checkpoint, finetuning is performed on downstream tasks related to code retrieval, such as  `Adv ` and `CodeSearch`, useing processed finetuned data. For example, If you have pretrained on Python code, you should also fine-tune on Python code.
+```
+bash finetune-code.sh
+```
+
+#### Finetuning for product search
+
+For the product retrieval task, the pretrained checkpoint is fine-tuned on `ESCI (small)`, useing processed finetuned data. You can find more details about this task [here](https://github.com/amazon-science/esci-data).
+```
+bash finetune-product.sh
+```
+> P.S. If you want to use hard negatives, you need to set the parameter `train_n_passages` to n+1, where n is the number of hard negatives.
+
+## Evaluating
+
+Before evaluating the code and product retrieval tasks, it is necessary to download `OpenMatch`.
+```
+git clone https://github.com/OpenMatch/OpenMatch.git
+```
+
+#### Evaluating Code Retrieval
+
+For code retrieval tasks, you need to generate test data to conform to OpenMatch's input.
+```
+bash build-code-test.sh
+```
+
+Then, you need to build the Faiss index and obtain the necessary files for inference.
+
+```
+bash index-code.sh
+```
+
+Evaluate using the obtained inference files.
+```
+bash evaluate_code.sh
 ```

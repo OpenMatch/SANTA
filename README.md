@@ -22,6 +22,20 @@ git clone https://github.com/OpenMatch/OpenMatch.git
 cd OpenMatch
 pip install .
 ```
+
+## Pretrained Checkpoint
+#### HuggingFace Link
+(1) The checkpoint of the pretrained SANTA model on `Python` data is here.
+(2) The checkpoint of the pretrained SANTA model on `ESCI (large)` data is here.
+
+#### Pretraining Paraments
+```
+learning_rate=5e-5
+num_train_epochs=6
+train_n_passages=1 
+per_device_train_batch_size=16
+```
+
 ## Data Download
 #### Code
 (1) [CodeSearchNet](https://github.com/github/CodeSearchNet)
@@ -145,4 +159,20 @@ bash index-code.sh
 Evaluate using the obtained inference files.
 ```
 bash evaluate_code.sh
+```
+
+#### Evaluating Product Retrieval
+
+For product retrieval task, you need to generate test data to conform to OpenMatch's input.
+```
+bash build-product-test.sh
+```
+
+Encode the query and description of the product as embeddings and save them.
+```
+bash index-product.sh
+```
+Calculate scores for the encoded embeddings and sort them to obtain two files `hypothesis.results` and `test.qrels`, which will be used to calculate the NDCG score.
+```
+bash evaluate_product.sh
 ```

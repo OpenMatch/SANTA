@@ -25,8 +25,9 @@ pip install .
 
 ## Pretrained Checkpoint
 #### HuggingFace Link
-(1) The checkpoint of the pretrained SANTA model on `Python` data is here.
-(2) The checkpoint of the pretrained SANTA model on `ESCI (large)` data is here.
+(1) The checkpoint of the pretrained SANTA model on `Python` data is [here](https://huggingface.co/OpenMatch/santa-code-python-adv).
+
+(2) The checkpoint of the pretrained SANTA model on `ESCI (large)` data is [here](https://huggingface.co/OpenMatch/santa-product-esci).
 
 #### Pretraining Paraments
 ```

@@ -105,6 +105,7 @@ For the product search task, we use ESCI (small) data for finetuning. you can pr
 ```
 bash process-finetune-product.sh
 ```
+> P.S. Due to the absence of product descriptions for some items in the ESCI dataset, when processing the product data for fine-tuning, we concatenate the product title and product description using the following format:  `title: + product title + text: + product description.` If a product doesn't have a description, we concatenate it as follows:  `title: + product title + text:`.
 
 ## Pretraining
 #### Pretraing for code search
@@ -136,6 +137,23 @@ For the product retrieval task, the pretrained checkpoint is fine-tuned on `ESCI
 bash finetune-product.sh
 ```
 > P.S. If you want to use hard negatives, you need to set the parameter `train_n_passages` to n+1, where n is the number of hard negatives.
+
+
+## Select Checkpoint
+The previous pretraining and finetuning tasks saved checkpoints in their respective directories, and this section is about selecting the best checkpoint on their respective dev sets.
+
+#### Best dev checkpoint for product retrieval pretraining
+Evaluating all the checkpoints saved after pretraining on the previously processed dev data located at `${PRETRAIN_PATH}/${pretrain_eval_data}`, and save the best checkpoint.
+```
+bash dev_product_pretrain.sh
+```
+
+#### Best dev checkpoint for product retrieval finetuning
+
+Evaluating all the checkpoints saved after finetuning on the previously processed dev data located at `${FINETUNE_PATH}/${finetune_eval_data}`, and save the best checkpoint.
+```
+bash dev_product_finetune.sh
+```
 
 ## Evaluating
 

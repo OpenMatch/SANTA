@@ -142,6 +142,18 @@ bash finetune-product.sh
 ## Select Checkpoint
 The previous pretraining and finetuning tasks saved checkpoints in their respective directories, and this section is about selecting the best checkpoint on their respective dev sets.
 
+#### Best dev checkpoint for code retrieval pretraining
+Evaluating all the checkpoints saved after pretraining on the previously processed dev data, and save the best checkpoint.
+```
+bash dev_code_pretrain.sh
+```
+
+#### Best dev checkpoint for code retrieval finetuning
+Evaluating all the checkpoints saved after finetuning on the previously processed dev data, and save the best checkpoint.
+```
+bash dev_code_finetune.sh
+```
+
 #### Best dev checkpoint for product retrieval pretraining
 Evaluating all the checkpoints saved after pretraining on the previously processed dev data located at `${PRETRAIN_PATH}/${pretrain_eval_data}`, and save the best checkpoint.
 ```
